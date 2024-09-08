@@ -20,19 +20,28 @@ interface Props {
 }
 
 const { page } = Astro.props;
+
+// Error handling
+if (!page || !page.data) {
+  return Astro.redirect('/404'); // Redirect to 404 page if page data is missing
+}
 ---
 
 <BaseLayout title="Blog">
   <h1>Blog Posts</h1>
-  <ul>
-    {page.data.map((post) => (
-      <li>
-        {post.data.image && <img src={post.data.image} alt={post.data.title} width="50" height="50" />}
-        <a href={`/blog/${post.slug}`}>{post.data.title}</a>
-        <span> - {post.data.date.toLocaleDateString()}</span>
-      </li>
-    ))}
-  </ul>
+  {page.data.length > 0 ? (
+    <ul>
+      {page.data.map((post) => (
+        <li>
+          {post.data.image && <img src={post.data.image} alt={post.data.title} width="50" height="50" />}
+          <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+          <span> - {post.data.date.toLocaleDateString()}</span>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>No blog posts found.</p>
+  )}
 
   <nav>
     {page.url.prev ? <a href={page.url.prev}>Previous</a> : null}
