@@ -9,7 +9,7 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const allPosts = await getCollection('blog', ({ data }) => {
     return import.meta.env.PROD ? data.draft !== true : true;
   });
-  
+
   const sortedPosts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
   return paginate(sortedPosts, { pageSize: 10 });
@@ -20,11 +20,6 @@ interface Props {
 }
 
 const { page } = Astro.props;
-
-// Error handling
-if (!page || !page.data) {
-  return Astro.redirect('/404'); // Redirect to 404 page if page data is missing
-}
 ---
 
 <BaseLayout title="Blog">
