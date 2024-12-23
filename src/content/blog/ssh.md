@@ -2,7 +2,7 @@
 title: My New Blog Post
 date: 2024-09-09
 tags: [test, post]
-draft: false
+draft: true
 ---
 
 # ssh for webdev
